@@ -22,3 +22,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+.vercel
+.env*
+
+# AI tooling
+.agents/
+.atl/
+skills-lock.json
