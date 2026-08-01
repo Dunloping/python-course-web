@@ -1,0 +1,39 @@
+# OpenSpec Configuration
+# Python Course Web Platform
+
+project: python-course-web
+version: 0.1.0
+
+# Stack
+stack:
+  framework: react
+  language: typescript
+  bundler: vite
+  css: tailwindcss
+  runtime: node
+
+# Testing
+testing:
+  strict_tdd: false
+  runner: null
+  note: "No test runner configured. Recommend adding vitest for unit tests."
+
+# Linting
+linting:
+  tool: oxlint
+  command: "npm run lint"
+
+# Build
+build:
+  command: "npm run build"
+  output: dist
+
+# Persistence
+persistence:
+  mode: both  # engram + openspec
+
+# Conventions
+conventions:
+  file_structure: src/{pages,components,contexts,data}
+  state_management: react-context
+  styling: tailwindcss

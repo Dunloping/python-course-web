@@ -53,12 +53,12 @@ print(f"El área es: {area}")`,
 # Paso 2: Pedir número B
 # Paso 3: Comparar y mostrar cuál es mayor
 
-a = float(input("Ingresá el primer número: "))
-b = float(input("Ingresá el segundo número: "))
+a = int(input("Ingresá el primer número: "))
+b = int(input("Ingresá el segundo número: "))
 
 # Completá el código...`,
-    solution: `a = float(input("Ingresá el primer número: "))
-b = float(input("Ingresá el segundo número: "))
+    solution: `a = int(input("Ingresá el primer número: "))
+b = int(input("Ingresá el segundo número: "))
 
 if a > b:
     print(f"{a} es mayor")
@@ -154,7 +154,7 @@ fahrenheit = (celsius * 9/5) + 32
 print(f"{celsius}°C equivale a {fahrenheit}°F")`,
     tests: [
       { input: '0', expected: '0.0°C equivale a 32.0°F' },
-      { input: '100', expected: '100.0°C equivale to 212.0°F' },
+      { input: '100', expected: '100.0°C equivale a 212.0°F' },
     ],
     hints: [
       'La fórmula es: (Celsius × 9/5) + 32',

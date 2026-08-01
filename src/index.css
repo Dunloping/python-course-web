@@ -1,6 +1,103 @@
 @import "tailwindcss";
 
+@theme {
+  --color-night-950: #070b14;
+  --color-night-900: #0b1120;
+  --color-night-800: #101a30;
+  --color-night-700: #182338;
+  --color-night-600: #24324f;
+  --color-neon: #22d3ee;
+  --color-neon-soft: #67e8f9;
+  --color-volt: #34d399;
+  --color-volt-soft: #6ee7b7;
+  --color-ghost: #a78bfa;
+  --color-ghost-soft: #c4b5fd;
+  --color-flame: #fb923c;
+  --color-flame-soft: #fdba74;
+  --color-danger: #fb7185;
+}
+
 body {
   margin: 0;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--color-night-950);
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(34, 211, 238, 0.09), transparent 60%),
+    radial-gradient(ellipse 60% 40% at 90% 110%, rgba(167, 139, 250, 0.06), transparent 60%),
+    linear-gradient(rgba(34, 211, 238, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34, 211, 238, 0.035) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 42px 42px, 42px 42px;
+  color: #cbd5e1;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: rgba(34, 211, 238, 0.35);
+  color: #f8fafc;
+}
+
+@layer components {
+  .card {
+    @apply bg-night-800 border border-night-600/60 rounded-2xl shadow-lg;
+  }
+
+  .card-hover {
+    @apply transition-all duration-200 hover:border-neon/50 hover:shadow-[0_0_30px_-8px_rgba(34,211,238,0.45)];
+  }
+
+  .neon-btn {
+    @apply inline-flex items-center justify-center bg-neon text-night-950 font-semibold rounded-lg px-5 py-2.5
+      transition-all duration-200 hover:bg-neon-soft hover:shadow-[0_0_20px_-4px_rgba(34,211,238,0.7)] active:scale-[0.98];
+  }
+
+  .ghost-btn {
+    @apply inline-flex items-center justify-center bg-night-700 text-slate-200 font-medium rounded-lg px-5 py-2.5
+      transition-all duration-200 hover:bg-night-600 hover:text-white active:scale-[0.98];
+  }
+
+  .chip-neon {
+    @apply inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium border bg-neon/10 text-neon-soft border-neon/30;
+  }
+
+  .chip-volt {
+    @apply inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium border bg-volt/10 text-volt-soft border-volt/30;
+  }
+
+  .chip-ghost {
+    @apply inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium border bg-ghost/10 text-ghost-soft border-ghost/30;
+  }
+
+  .chip-flame {
+    @apply inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium border bg-flame/10 text-flame-soft border-flame/30;
+  }
+
+  .chip-muted {
+    @apply inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium border bg-night-700/60 text-slate-400 border-night-600/60;
+  }
+
+  .input {
+    @apply w-full px-4 py-2.5 bg-night-900 border border-night-600/70 rounded-lg text-slate-200 placeholder-slate-500
+      focus:outline-none focus:ring-2 focus:ring-neon/50 focus:border-neon/60 transition-colors;
+  }
+
+  .field-label {
+    @apply block text-sm font-medium text-slate-300 mb-1.5;
+  }
+
+  .neon-text {
+    text-shadow: 0 0 12px rgba(34, 211, 238, 0.6);
+  }
+
+  .volt-text {
+    text-shadow: 0 0 12px rgba(52, 211, 153, 0.6);
+  }
+
+  .progress-track {
+    @apply w-full bg-night-900 rounded-full overflow-hidden border border-night-600/40;
+  }
+
+  .progress-fill {
+    @apply h-full rounded-full transition-all duration-500 bg-gradient-to-r from-neon to-volt;
+  }
 }
