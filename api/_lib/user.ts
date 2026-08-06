@@ -1,7 +1,7 @@
 export const COURSE_LIMITS = {
-  maxParticipants: 7,
+  maxParticipants: 10,
   minAge: 14,
-  maxAge: 19,
+  maxAge: 22,
 } as const
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/

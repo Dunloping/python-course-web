@@ -2,7 +2,7 @@ import { randomUUID } from 'node:crypto'
 import { sql } from './_lib/db.js'
 import { hashPassword } from './_lib/password.js'
 import { json, error, readBody, getAuthUser } from './_lib/http.js'
-import { COURSE_LIMITS, isValidEmail, toSafeUser } from './_lib/user.js'
+import { COURSE_LIMITS, isValidEmail, toSafeUser, toProgress } from './_lib/user.js'
 
 function getIdFromUrl(req: Request): string | null {
   return new URL(req.url).searchParams.get('id')
@@ -14,10 +14,27 @@ export async function GET(req: Request) {
   if (auth.role !== 'admin') return error('Acceso denegado', 403)
 
   const rows = await sql`
-    SELECT id, name, email, role, age, created_at, last_login
-    FROM users ORDER BY created_at ASC
+    SELECT u.id, u.name, u.email, u.role, u.age, u.created_at, u.last_login,
+           p.completed_lessons, p.exercise_results, p.current_week, p.last_accessed AS progress_last_accessed
+    FROM users u
+    LEFT JOIN progress p ON p.user_id = u.id
+    ORDER BY u.created_at ASC
   `
-  return json({ users: rows.map(toSafeUser) })
+
+  const users = rows.map((row) => {
+    const safe = toSafeUser(row)
+    if (row.completed_lessons !== undefined && row.completed_lessons !== null) {
+      safe.progress = toProgress({
+        completed_lessons: row.completed_lessons,
+        exercise_results: row.exercise_results,
+        current_week: row.current_week,
+        last_accessed: row.progress_last_accessed,
+      })
+    }
+    return safe
+  })
+
+  return json({ users })
 }
 
 export async function POST(req: Request) {
