@@ -14,5 +14,5 @@ export const COURSE_CONFIG: CourseConfig = {
   location: "Parroquia Santa Lucía, Maracaibo, Estado Zulia"
 }
 
-export const DEFAULT_ADMIN_EMAIL = "jesusdanielav@gmail.com"
-export const DEFAULT_ADMIN_PASSWORD = "Admin123!"
+export const DEFAULT_ADMIN_EMAIL = import.meta.env.VITE_DEFAULT_ADMIN_EMAIL || "jesusdanielav@gmail.com"
+export const DEFAULT_ADMIN_PASSWORD = import.meta.env.VITE_DEFAULT_ADMIN_PASSWORD || "Admin123!"
