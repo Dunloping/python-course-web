@@ -6,7 +6,7 @@ import { lessons } from '../../data/lessons'
 import { exercises } from '../../data/exercises'
 
 export default function AdminDashboard() {
-  const { users, getSpotsRemaining } = useAuth()
+  const { users } = useAuth()
   const [maxParticipants, setMaxParticipants] = useState(COURSE_CONFIG.maxParticipants)
   const [editingCapacity, setEditingCapacity] = useState(false)
   const [capacityInput, setCapacityInput] = useState(maxParticipants.toString())
