@@ -7,9 +7,9 @@ export const COURSE_CONFIG: CourseConfig = {
   startDate: "2026-08-01",
   schedule: "Sábados, 9:00 - 10:30 AM",
   duration: 4,
-  maxParticipants: 7,
+  maxParticipants: 10,
   minAge: 14,
-  maxAge: 19,
+  maxAge: 22,
   isFree: true,
   location: "Parroquia Santa Lucía, Maracaibo, Estado Zulia"
 }

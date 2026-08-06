@@ -16,6 +16,7 @@ import DashboardPage from './pages/DashboardPage'
 import AdminLayout from './pages/admin/AdminLayout'
 import AdminDashboard from './pages/admin/AdminDashboard'
 import UsersPage from './pages/admin/UsersPage'
+import StudentProgressPage from './pages/admin/StudentProgressPage'
 
 function PublicRoutes() {
   const { isAuthenticated, currentUser } = useAuth()
@@ -56,6 +57,7 @@ function AdminRoutes() {
       <Routes>
         <Route path="/" element={<AdminDashboard />} />
         <Route path="/users" element={<UsersPage />} />
+        <Route path="/progress" element={<StudentProgressPage />} />
         <Route path="*" element={<Navigate to="/admin" replace />} />
       </Routes>
     </AdminLayout>

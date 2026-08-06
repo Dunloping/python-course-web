@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
 import { COURSE_CONFIG } from '../../data/config'
@@ -6,11 +7,14 @@ import { exercises } from '../../data/exercises'
 
 export default function AdminDashboard() {
   const { users, getSpotsRemaining } = useAuth()
+  const [maxParticipants, setMaxParticipants] = useState(COURSE_CONFIG.maxParticipants)
+  const [editingCapacity, setEditingCapacity] = useState(false)
+  const [capacityInput, setCapacityInput] = useState(maxParticipants.toString())
   
   const totalUsers = users.length
   const students = users.filter(u => u.role === 'student')
   const admins = users.filter(u => u.role === 'admin')
-  const spots = getSpotsRemaining()
+  const spots = Math.max(0, maxParticipants - students.length)
   
   // Calculate completion stats
   const totalLessonsCompleted = students.reduce((acc, s) => 
@@ -76,7 +80,7 @@ export default function AdminDashboard() {
             <div>
               <p className="text-sm font-medium text-slate-400">Cupos Disponibles</p>
               <p className={`text-3xl font-bold ${spots === 0 ? 'text-danger' : 'text-volt'}`}>
-                {spots}/{COURSE_CONFIG.maxParticipants}
+                {spots}/{maxParticipants}
               </p>
             </div>
             <div className={`w-12 h-12 rounded-full flex items-center justify-center border ${
@@ -88,8 +92,48 @@ export default function AdminDashboard() {
           <div className="mt-4 progress-track h-2">
             <div
               className="progress-fill"
-              style={{ width: `${((COURSE_CONFIG.maxParticipants - spots) / COURSE_CONFIG.maxParticipants) * 100}%` }}
+              style={{ width: `${((maxParticipants - spots) / maxParticipants) * 100}%` }}
             ></div>
+          </div>
+          <div className="mt-3 flex items-center space-x-2">
+            {editingCapacity ? (
+              <>
+                <input
+                  type="number"
+                  value={capacityInput}
+                  onChange={(e) => setCapacityInput(e.target.value)}
+                  min={students.length}
+                  max={50}
+                  className="input w-20 text-center text-sm py-1"
+                />
+                <button
+                  onClick={() => {
+                    const val = parseInt(capacityInput)
+                    if (!isNaN(val) && val >= students.length) {
+                      setMaxParticipants(val)
+                      COURSE_CONFIG.maxParticipants = val
+                    }
+                    setEditingCapacity(false)
+                  }}
+                  className="text-xs px-2 py-1 bg-volt/20 text-volt border border-volt/40 rounded hover:bg-volt/30 transition-colors"
+                >
+                  Guardar
+                </button>
+                <button
+                  onClick={() => { setEditingCapacity(false); setCapacityInput(maxParticipants.toString()) }}
+                  className="text-xs px-2 py-1 text-slate-500 hover:text-slate-300 transition-colors"
+                >
+                  Cancelar
+                </button>
+              </>
+            ) : (
+              <button
+                onClick={() => { setEditingCapacity(true); setCapacityInput(maxParticipants.toString()) }}
+                className="text-xs text-neon hover:text-neon-soft transition-colors"
+              >
+                ✏️ Cambiar capacidad
+              </button>
+            )}
           </div>
         </div>
 
@@ -162,7 +206,7 @@ export default function AdminDashboard() {
       </div>
 
       {/* Quick Actions */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Link
           to="/admin/users"
           className="card card-hover p-6"
@@ -174,6 +218,21 @@ export default function AdminDashboard() {
             <div>
               <h3 className="text-lg font-semibold text-slate-100">Gestionar Usuarios</h3>
               <p className="text-sm text-slate-400">Crear, editar, eliminar</p>
+            </div>
+          </div>
+        </Link>
+
+        <Link
+          to="/admin/progress"
+          className="card card-hover p-6"
+        >
+          <div className="flex items-center space-x-4">
+            <div className="w-12 h-12 bg-flame/10 border border-flame/30 rounded-lg flex items-center justify-center">
+              <span className="text-2xl">📈</span>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold text-slate-100">Progreso Estudiantes</h3>
+              <p className="text-sm text-slate-400">Ver avance individual</p>
             </div>
           </div>
         </Link>

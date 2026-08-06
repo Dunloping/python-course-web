@@ -147,28 +147,16 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
     }
   }
 
-  const isWeekUnlocked = (week: number): boolean => {
-    if (week <= 1) return true
-    const prevWeekLessons = lessons.filter((l) => l.week === week - 1)
-    return prevWeekLessons.every((l) => progress.completedLessons.includes(l.id))
+  const isWeekUnlocked = (_week: number): boolean => {
+    return true
   }
 
-  const isLessonUnlocked = (lessonId: string): boolean => {
-    const idx = lessons.findIndex((l) => l.id === lessonId)
-    if (idx < 0) return false
-    const lesson = lessons[idx]
-    if (!isWeekUnlocked(lesson.week)) return false
-    const weekLessons = lessons.filter((l) => l.week === lesson.week)
-    const lessonPos = weekLessons.findIndex((l) => l.id === lessonId)
-    const prevInWeek = weekLessons.slice(0, lessonPos)
-    return prevInWeek.every((l) => progress.completedLessons.includes(l.id))
+  const isLessonUnlocked = (_lessonId: string): boolean => {
+    return true
   }
 
-  const isExerciseUnlocked = (exerciseId: string): boolean => {
-    const exercise = exercises.find((e) => e.id === exerciseId)
-    if (!exercise) return false
-    if (!isWeekUnlocked(exercise.week)) return false
-    return progress.completedLessons.includes(exercise.lessonId)
+  const isExerciseUnlocked = (_exerciseId: string): boolean => {
+    return true
   }
 
   return (

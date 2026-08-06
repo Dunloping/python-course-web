@@ -15,6 +15,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   const navigation = [
     { name: 'Dashboard', href: '/admin', icon: '📊' },
     { name: 'Usuarios', href: '/admin/users', icon: '👥' },
+    { name: 'Progreso', href: '/admin/progress', icon: '📈' },
   ]
 
   const isActive = (href: string) => {
