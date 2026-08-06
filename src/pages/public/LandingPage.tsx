@@ -1,10 +1,12 @@
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
 import { COURSE_CONFIG } from '../../data/config'
+import { getNextClassInfo } from '../../lib/schedule'
 
 export default function LandingPage() {
   const { isAuthenticated, getSpotsRemaining } = useAuth()
   const spots = getSpotsRemaining()
+  const classInfo = getNextClassInfo()
   
   const startDate = new Date(COURSE_CONFIG.startDate)
   const formattedDate = startDate.toLocaleDateString('es-VE', { 
@@ -86,6 +88,18 @@ export default function LandingPage() {
                 </Link>
               </>
             )}
+          </div>
+
+          {/* Dynamic class countdown */}
+          <div className={`mt-8 inline-block px-6 py-3 rounded-full text-lg font-semibold backdrop-blur-sm border ${
+            classInfo.type === 'today'
+              ? 'bg-volt/20 border-volt/50 text-volt shadow-[0_0_20px_-4px_rgba(52,211,153,0.6)]'
+              : classInfo.type === 'before' && classInfo.daysUntil <= 2
+                ? 'bg-flame/20 border-flame/50 text-flame-soft shadow-[0_0_20px_-4px_rgba(251,146,60,0.5)]'
+                : 'bg-white/10 border-white/20 text-white'
+          }`}>
+            {classInfo.type === 'today' ? '📚 ' : classInfo.type === 'before' && classInfo.daysUntil <= 2 ? '🔥 ' : '📅 '}
+            {classInfo.message}
           </div>
         </div>
       </section>

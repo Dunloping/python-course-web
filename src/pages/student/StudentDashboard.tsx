@@ -4,16 +4,15 @@ import { useProgress } from '../../contexts/ProgressContext'
 import { lessons } from '../../data/lessons'
 import { exercises } from '../../data/exercises'
 import { COURSE_CONFIG } from '../../data/config'
+import { getNextClassInfo } from '../../lib/schedule'
 
 export default function StudentDashboard() {
   const { currentUser } = useAuth()
   const { getWeekProgress, getTotalProgress } = useProgress()
   const { lessonsCompleted, exercisesCompleted } = getTotalProgress()
+  const classInfo = getNextClassInfo()
 
-  const startDate = new Date(COURSE_CONFIG.startDate)
-  const now = new Date()
-  const weeksSinceStart = Math.floor((now.getTime() - startDate.getTime()) / (7 * 24 * 60 * 60 * 1000))
-  const currentWeek = Math.min(Math.max(weeksSinceStart + 1, 1), COURSE_CONFIG.duration)
+  const currentWeek = classInfo.currentWeek
 
   return (
     <div className="space-y-8">
@@ -26,9 +25,19 @@ export default function StudentDashboard() {
           <h1 className="text-3xl font-bold text-slate-100 mb-2">
             ¡Hola, {currentUser?.name?.split(' ')[0]}! 👋
           </h1>
-          <p className="text-slate-400 text-lg">
+          <p className="text-slate-400 text-lg mb-4">
             Bienvenido al curso de Python. ¡Vamos a programar algo grande!
           </p>
+          <div className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold border ${
+            classInfo.type === 'today'
+              ? 'bg-volt/15 border-volt/40 text-volt'
+              : classInfo.type === 'before' && classInfo.daysUntil <= 2
+                ? 'bg-flame/15 border-flame/40 text-flame-soft'
+                : 'bg-night-800 border-night-600/50 text-slate-300'
+          }`}>
+            {classInfo.type === 'today' ? '📚 ' : classInfo.type === 'before' && classInfo.daysUntil <= 2 ? '🔥 ' : '📅 '}
+            {classInfo.message}
+          </div>
         </div>
       </div>
 
