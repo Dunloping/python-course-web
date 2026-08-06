@@ -73,7 +73,6 @@ export function getNextClassInfo(now: Date = new Date()): {
     }
   }
 
-  const last = classes[classes.length - 1]
   return {
     type: 'after',
     daysUntil: 0,
