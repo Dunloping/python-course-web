@@ -13,7 +13,8 @@ function startOfDay(d: Date): Date {
 }
 
 export function getClassDates(): ClassSchedule[] {
-  const start = new Date(COURSE_CONFIG.startDate + 'T09:00:00')
+  const [y, m, d] = COURSE_CONFIG.startDate.split('-').map(Number)
+  const start = new Date(y, m - 1, d, 9, 0, 0)
   const dates: ClassSchedule[] = []
   for (let i = 0; i < COURSE_CONFIG.duration; i++) {
     const d = new Date(start)

@@ -8,7 +8,8 @@ export default function LandingPage() {
   const spots = getSpotsRemaining()
   const classInfo = getNextClassInfo()
   
-  const startDate = new Date(COURSE_CONFIG.startDate)
+  const [sy, sm, sd] = COURSE_CONFIG.startDate.split('-').map(Number)
+  const startDate = new Date(sy, sm - 1, sd)
   const formattedDate = startDate.toLocaleDateString('es-VE', { 
     weekday: 'long', 
     year: 'numeric', 
